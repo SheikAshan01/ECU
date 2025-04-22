@@ -1,38 +1,463 @@
-.App {
-  text-align: center;
+/* Global Styles */
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: black;
+  color: white;
+  font-family: Arial, sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Main App Container */
+.app {
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  max-width: 100vw;
+  overflow-x: hidden;
+  padding: 20px 0;
   align-items: center;
+}
+
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box; /* Add this */
+  max-width: 100vw;        /* Prevents going beyond viewport */
+  overflow-x: scroll;      /* Optional safeguard */
+}
+
+
+/* Card */
+.card {
+  background-color: #555;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  border: 2px solid #555;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  /* min-height: 200px; */
+  height: 230px;
+  transition: transform 0.2s ease-in-out;
+  gap: 10px;
+}
+
+.card.selected {
+  border: 3px solid #ebe6e6;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+  transform: scale(1.02);
+  transition: all 0.2s ease;
+}
+
+
+
+/* Sensor Info Box */
+.s-box{
+  border: #1EC5D4 2px solid;
+  padding: 20px 10px;
+  border-radius: 6px;
+  width: 100%;
+  height: 200px;
+}
+  
+
+
+.s-box2 {
+  border: #1EC5D4 2px solid;
+  padding: 20px 10px;
+  border-radius: 6px;
+  width: 30%;
+  height: 200px;
+}
+
+.title1, .title2 {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 5px 0;
+  background: white;
+  color: black;
+  padding: 5px;
+  width: 100%;
+}
+
+.title1 {
+  border-radius: 10px 0px;
+}
+
+.title2 {
+  border-radius: 0px 10px;
+}
+
+.status-lights {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 5px;
+  margin-bottom: 5px;
+  margin-top: 32px;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: limegreen;
+}
+
+@keyframes blink-animation {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink-animation 1s infinite;
+}
+
+
+.sensor-data {
+  margin: 5px 0;
+  width: 100%;
+}
+
+.location {
+  font-size: 0.8rem;
+  color: #ccc;
+  margin-top: 4px;
+}
+
+.gas {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.gas-readings {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 15px;
+}
+
+.gas-section {
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  /* background-color: #444;  */
+  display: flex;
+  justify-content: space-around;
+}
+
+.gas-label {
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  /* margin-bottom: 6px; */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.icon-img {
+  height: 30px;
+  width: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.gas-bar {
+  height: 10px;
+  width: 100px;
+  flex-grow: 1;
+  margin: 0 5px;
+  border-radius: 3px;
+}
+
+.reading-box {
+  background-color: #4a9aa1;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  padding: 4px 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+}
+
+.reading-box .value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.reading-box .unit {
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+
+/* Temperature Section */
+.temp-section {
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  border: black 2px solid;
+   margin-bottom: 10px;
+}
+
+@keyframes blink-bg-animation {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 0, 0, 0.3); }
+}
+
+.blink-bg {
+  animation: blink-bg-animation 1s infinite;
+}
+
+
+.temp-label {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.icon {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.bar-line {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  gap: 5px;
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+.bar-container {
+  position: relative;
+  height: 10px;
+  width: 100px; /* Fixed width */
+  /* background-color: #eee; */
+  border: 2px solid  black;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.bar-container2 {
+  position: relative;
+  height: 10px;
+  width: 220px; /* Fixed width */
+  /* background-color: #eee; */
+  border: 2px solid  black;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.red-bar {
+  height: 100%;
+  background-color: red;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  border-radius: 3px 0 0 3px;
+}
+
+.red-bar1 {
+  height: 100%;
+  background-color: red;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  border-radius: 3px 0 0 3px;
+}
+
+.temp-value-box {
+  background-color: #4a9aa1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.temp-value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.unit {
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+/* Humidity Section */
+.humidity-section {
+  text-align: center;
+  width: 100%;
+}
+
+.humidity-label {
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.humidity-bar {
+  height: 8px;
+  width: 100%;
+  background-color: #222;
+  border: 1px solid #666;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.blue-bar {
+  height: 100%;
+  background-color: #00bfff;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  border-radius: 3px 0 0 3px;
+}
+
+.blue-bar1 {
+  height: 100%;
+  background-color: #00bfff;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+  border-radius: 3px 0 0 3px;
+  margin: 0%;
+}
+
+.humidity-value {
+  font-size: 12px;
+}
+
+/* Controls */
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls button {
+  background-color: black;
+  color: white;
+  border: 1px solid blue;
+  padding: 10px 20px;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+}
+
+/* Responsive for Mobile */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .card {
+    flex-direction: column;
   }
+
+  .temp-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sensor-data {
+    width: 100%;
+  }
+}
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.dialog {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 550px;
+  color: black;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-group {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dialog-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.dialog-group input {
+  width: 20%;
+  padding: 6px;
+  font-size: 16px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.save {
+  background: #4caf50;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.close {
+  background: gray;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
 }

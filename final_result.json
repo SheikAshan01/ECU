@@ -1,0 +1,140 @@
+[
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0C",
+    "Temperature": 0.35,
+    "Humidity": 0.62
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "01",
+    "Temperature": 0.24,
+    "Humidity": 0.51
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "02",
+    "Temperature": 0.28,
+    "Humidity": 0.52
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "03",
+    "Temperature": 0.26,
+    "Humidity": 0.53
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "04",
+    "Temperature": 0.27,
+    "Humidity": 0.75
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "05",
+    "Temperature": 0.28,
+    "Humidity": 0.55
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "06",
+    "Temperature": 0.29,
+    "Humidity": 0.56
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "07",
+    "Temperature": 0.3,
+    "Humidity": 0.57
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "08",
+    "Temperature": 0.31,
+    "Humidity": 0.58
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "09",
+    "Temperature": 0.32,
+    "Humidity": 0.59
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0A",
+    "Temperature": 0.33,
+    "Humidity": 0.6
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0B",
+    "Temperature": 0.34,
+    "Humidity": 0.61
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0D",
+    "Temperature": 0.36,
+    "Humidity": 0.63
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0E",
+    "Temperature": 0.37,
+    "Humidity": 0.64
+  },
+  {
+    "timestamp": "2025-04-21 17:21:55",
+    "id": "0F",
+    "Temperature": 0.36,
+    "Humidity": 0.65
+  },
+  {
+    "timestamp": "2025-04-21 17:21:56",
+    "id": "10",
+    "Temperature": 0.37,
+    "Humidity": 0.66
+  },
+  {
+    "timestamp": "2025-04-21 17:21:56",
+    "id": "11",
+    "Temperature": 0.22,
+    "Humidity": 0.67
+  },
+  {
+    "timestamp": "2025-04-21 17:21:56",
+    "id": "12",
+    "Temperature": 0.39,
+    "Humidity": 0.68
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "13",
+    "Temperature": 0.4,
+    "Humidity": 0.69
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "14",
+    "Temperature": 0.34,
+    "Humidity": 0.0
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "15",
+    "Temperature": 0.41,
+    "Humidity": 0.0
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "16",
+    "Temperature": 0.23,
+    "Humidity": 0.0
+  },
+  {
+    "timestamp": "2025-04-21 17:21:54",
+    "id": "00",
+    "Temperature": 0.23,
+    "Humidity": 0.5
+  }
+]
