@@ -48,7 +48,7 @@ function App() {
     try {
       const res = await fetch('http://localhost:5000/api/data');
       const json = await res.json();
-      
+      console.log("✅ Fetch response:", json);      
       
 
       // Fixed ID to BAY mapping

@@ -2,15 +2,37 @@ import serial
 import serial.tools.list_ports
 import json
 import time
+import os
 from datetime import datetime
 
-# ---------- CONFIG ----------
+print("🚀 Starting Data Logger...")
+
+# ----------- CONFIG ------------
 baudrate = 115200
-retry_interval = 0.5  # Fast retry
-final_result_file = 'final_result.json'
-sensor_ids = [f"{i:02X}" for i in range(1, 23)]  # 01 to 22
+retry_interval = 0.5
+
+sensor_ids = [
+    '01', '02', '03', '04', '05', '06', '07', '08', '09', '0A',
+    '14',  # GasCard (BAY11)
+    '0B', '0C', '0D', '0E',
+    '15',  # GasCard (BAY16)
+    '0F', '10', '11', '12', '13',
+    'FIXED'
+]
+
+# ----------- PATH SETUP ----------
+script_dir = os.path.dirname(os.path.abspath(__file__))
+final_result_file = os.path.join(script_dir, "final_result.json")
+log_dir = os.path.join(script_dir, "logs")
+os.makedirs(log_dir, exist_ok=True)
+
+def get_today_log_file():
+    today = datetime.now().strftime("%d-%m-%Y")
+    return os.path.join(log_dir, f"log_{today}.json")
+
 last_values = {}
 
+# ----------- FUNCTIONS -----------
 def set_all_to_zero():
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     for sid in sensor_ids:
@@ -22,22 +44,20 @@ def set_all_to_zero():
         }
     with open(final_result_file, 'w') as f:
         json.dump(list(last_values.values()), f, indent=2)
-    print("⚠️ ECU disconnected — All values set to 0")
 
 def find_port():
     ports = list(serial.tools.list_ports.comports())
     print("🔍 Scanning Ports:", [p.device for p in ports])
     for port in ports:
         try:
-            test_ser = serial.Serial(port.device, baudrate, timeout=1)
+            ser = serial.Serial(port.device, baudrate, timeout=1)
             time.sleep(1)
-            if test_ser.in_waiting > 0:
-                data = test_ser.read(test_ser.in_waiting).hex().upper()
+            if ser.in_waiting > 0:
+                data = ser.read(ser.in_waiting).hex().upper()
                 if len(data) >= 28:
-                    print(f"✅ ECU detected on {port.device}")
-                    test_ser.close()
+                    ser.close()
                     return port.device
-            test_ser.close()
+            ser.close()
         except:
             continue
     return None
@@ -49,12 +69,11 @@ def connect_serial():
             try:
                 ser = serial.Serial(port, baudrate, timeout=1)
                 ser.reset_input_buffer()
-                print(f"🔌 Connected to {port}")
+                print(f"✅ Connected to {port}")
                 return ser
-            except Exception as e:
-                print(f"❌ Connection failed on {port}: {e}")
-        else:
-            print("🔁 No ECU detected... Retrying...")
+            except:
+                pass
+        print("🔁 No ECU detected. Retrying...")
         set_all_to_zero()
         time.sleep(retry_interval)
 
@@ -83,7 +102,6 @@ def read_from_serial(ser):
                 "Humidity": humidity
             }
 
-            # Fill other IDs with 0 if missing
             for sid in sensor_ids:
                 if sid not in last_values:
                     last_values[sid] = {
@@ -93,31 +111,36 @@ def read_from_serial(ser):
                         "Humidity": 0
                     }
 
-            # Save
+            # ✅ Save current state
             with open(final_result_file, 'w') as f:
                 json.dump(list(last_values.values()), f, indent=2)
 
+            # ✅ Append latest reading to today's log
+            with open(get_today_log_file(), 'a') as f:
+                json.dump(last_values[id_hex], f)
+                f.write(",\n")
+
             print(f"[{timestamp}] ID:{id_hex} | 🌡 {temp}°C | 💧 {humidity}%")
 
-# ---------- MAIN ----------
+# ----------- MAIN LOOP -----------
 def main():
-    while True:
-        ser = connect_serial()
-        try:
-            while True:
-                read_from_serial(ser)
-                time.sleep(0.05)
-        except serial.SerialException:
-            print("❌ Disconnected. Reconnecting...")
+    try:
+        while True:
+            ser = connect_serial()
             try:
-                ser.close()
-            except:
-                pass
-            set_all_to_zero()
-            time.sleep(retry_interval)
-        except KeyboardInterrupt:
-            print("🛑 Stopped by user.")
-            break
+                while True:
+                    read_from_serial(ser)
+                    time.sleep(0.05)
+            except serial.SerialException:
+                print("❌ Connection lost. Reconnecting...")
+                try:
+                    ser.close()
+                except:
+                    pass
+                set_all_to_zero()
+                time.sleep(retry_interval)
+    except KeyboardInterrupt:
+        print("\n🛑 Program stopped by user. Exiting gracefully.")
 
 if __name__ == '__main__':
     main()
